@@ -1,6 +1,6 @@
 {
-    "name": "artemis/shopify",
-    "description": "Package for Shopify",
+    "name": "artemis/repository",
+    "description": "Base repository pattern",
     "type": "library",
     "license": "MIT",
     "authors": [
