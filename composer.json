@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Artemis\\Shopify\\": "src/"
+            "Artemis\\Repository\\": "src/"
         }
     },
     "extra": {
