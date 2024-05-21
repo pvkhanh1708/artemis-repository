@@ -1,0 +1,30 @@
+{
+    "name": "artemis/shopify",
+    "description": "Package for Shopify",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artemis178"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.2",
+        "illuminate/database": "^8.0",
+        "illuminate/support": "^8.0",
+        "intervention/image": "^2.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Artemis\\Shopify\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Artemis\\Repository\\RepositoryServiceProvider"
+            ]
+        }
+    }
+}
