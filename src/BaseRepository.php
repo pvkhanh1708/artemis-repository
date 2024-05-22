@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Darkness\Repository\Cache\QueryCacheTrait;
+use Artemis\Repository\Cache\QueryCacheTrait;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -20,17 +20,16 @@ abstract class BaseRepository implements BaseRepositoryInterface
      * @var Model
      */
     protected Model $model;
-    private ReflectionClass $reflection;
+    protected ?ReflectionClass $reflection = null;
 
     /**
      * @return ReflectionClass
      */
     protected function getReflection(): ReflectionClass
     {
-        if ($this->reflection) {
-            return $this->reflection;
+        if (is_null($this->reflection)) {
+            $this->reflection = new ReflectionClass($this->getModel());
         }
-        $this->reflection = new ReflectionClass($this->getModel());
         return $this->reflection;
     }
 
@@ -85,7 +84,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
         $records =  $this->callWithCache(
             $callback,
             [$lModel, $size],
-            $this->getCacheKey(env('APP_NAME'), $this->getModel()->getName() . '.getByQuery', Arr::dot($params)),
+            $this->getCacheKey(env('APP_NAME'), $this->getModel()->getKeyName() . '.getByQuery', Arr::dot($params)),
             $this->getModel()->defaultCacheKeys('list')
         );
         return $this->lazyLoadInclude($records);
@@ -154,7 +153,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
         $record =  $this->callWithCache(
             $callback,
             [$id, $this, $field],
-            $this->getCacheKey(env('APP_NAME'), $this->getModel()->getName() . '.getById', [$field => $id])
+            $this->getCacheKey(env('APP_NAME'), $this->getModel()->getKeyName() . '.getById', [$field => $id])
         );
 
         return $this->lazyLoadInclude($record);
@@ -176,7 +175,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
         $record = $this->callWithCache(
             $callback,
             [$id, $this, $field],
-            $this->getCacheKey(env('APP_NAME'), $this->getModel()->getName() . '.getByIdInTrash', [$field => $id])
+            $this->getCacheKey(env('APP_NAME'), $this->getModel()->getKeyName() . '.getByIdInTrash', [$field => $id])
         );
         return $this->lazyLoadInclude($record);
     }
