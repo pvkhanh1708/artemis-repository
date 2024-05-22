@@ -12,14 +12,14 @@ class QueryCacheFlush extends Command
      *
      * @var string
      */
-    protected string $signature = 'query:cache-flush';
+    protected $signature = 'query:cache-flush';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Clear all query cache';
+    protected $description = 'Clear all query cache';
 
     public function handle(): void
     {
